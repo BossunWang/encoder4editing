@@ -18,7 +18,7 @@ def get_landmark(filepath, predictor):
     for k, d in enumerate(dets):
         shape = predictor(img, d)
 
-    t = list(shape.parts())
+    t = list(shape.parts()) if len(dets) > 0 else []
     a = []
     for tt in t:
         a.append([tt.x, tt.y])
@@ -33,6 +33,9 @@ def align_face(filepath, predictor):
     """
 
     lm = get_landmark(filepath, predictor)
+
+    if len(lm) < 1:
+        return None
 
     lm_chin = lm[0: 17]  # left-right
     lm_eyebrow_left = lm[17: 22]  # left-right
